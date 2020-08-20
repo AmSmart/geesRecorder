@@ -16,6 +16,9 @@ https://nodejs.org/en/download/
     dotnet build
     dotnet run
     
+## Add Database Environmental Variable to PC:
+    setx GEES_REC_DATABASE_URL "postgres://awmwwkqlljmamp:8abf716137e2dc3ecb25e0095aedae50bb9aee9996ee372531962a77ee40dcdb@ec2-54-217-213-79.eu-west-1.compute.amazonaws.com:5432/d6cp0dg409flif"
+    
     
 ### You're good to go
 
