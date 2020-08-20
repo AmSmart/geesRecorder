@@ -11,6 +11,10 @@ using geesRecorder.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Linq;
+using geesRecorder.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace geesRecorder
 {
@@ -26,15 +30,59 @@ namespace geesRecorder
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            string connectionString = Environment.GetEnvironmentVariable("GEES_REC_DATABASE_URL");
+            connectionString += ";sslmode=Require;Trust Server Certificate=true;";
+            string thisAssemblyName = typeof(Startup).Assembly.FullName;
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                // Parse connection URL to connection string for Npgsql
+                connectionString = connectionString.Replace("postgres://", string.Empty);
+
+                var pgUserPass = connectionString.Split("@")[0];
+                var pgHostPortDb = connectionString.Split("@")[1];
+                var pgHostPort = pgHostPortDb.Split("/")[0];
+
+                var pgDb = pgHostPortDb.Split("/")[1];
+                var pgUser = pgUserPass.Split(":")[0];
+                var pgPass = pgUserPass.Split(":")[1];
+                var pgHost = pgHostPort.Split(":")[0];
+                var pgPort = pgHostPort.Split(":")[1];
+
+                var connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}";
+
+                options.UseLazyLoadingProxies();
+                options.UseNpgsql(connStr);
+            });            
+
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            services.AddIdentityServer(config =>
+            {
+                config.UserInteraction.ErrorUrl = "/Error";
+            })
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(config => 
+                {
+                    config.Clients[0].UpdateAccessTokenClaimsOnRefresh = true;
+                    config.Clients[0].UpdateAccessTokenClaimsOnRefresh = true;
+                    config.Clients[0].AlwaysIncludeUserClaimsInIdToken = true;
+                    config.Clients[0].AccessTokenLifetime = 3600;
+                    config.Clients[0].AlwaysSendClientClaims = true;
+                })
+                .AddDeveloperSigningCredential()
+                .AddProfileService<AppProfileService>();
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedHost |     //Not included in the defaults using ASPNETCORE_FORWARDEDHEADERS_ENABLED
+                    ForwardedHeaders.XForwardedFor |
+                    ForwardedHeaders.XForwardedProto;
+                options.ForwardLimit = 2;
+                options.KnownNetworks.Clear(); //In a real scenario we would add the real proxy network(s) here based on a config parameter
+                options.KnownProxies.Clear();  //In a real scenario add the real proxy here based on a config parameter
+            });
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
@@ -52,6 +100,7 @@ namespace geesRecorder
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -60,7 +109,7 @@ namespace geesRecorder
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // The default HSTS value is 30 days. You may want to change thizs for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -88,6 +137,7 @@ namespace geesRecorder
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(300);
                 }
             });
         }
