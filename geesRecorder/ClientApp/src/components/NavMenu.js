@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { LoginMenu } from './api-authorization/LoginMenu';
 import './NavMenu.css';
 
+
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
 
@@ -39,6 +40,9 @@ export class NavMenu extends Component {
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
+                </NavItem>
+                <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/Dashboard">Dashboard</NavLink>
                 </NavItem>
                 <LoginMenu>
                 </LoginMenu>
