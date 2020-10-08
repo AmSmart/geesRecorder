@@ -28,14 +28,7 @@ namespace geesRecorder.Services
             string username = context.Subject.Identity.Name ?? "";
             var user = await _userManager.FindByNameAsync(username);
             if (user != null)
-            {
-                var roles = await _userManager.GetRolesAsync(user);
-                var claims = new List<Claim>();
-                foreach (var role in roles)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, role));
-                }
-                context.IssuedClaims.AddRange(claims);
+            { 
                 context.IssuedClaims.Add(new Claim(JwtClaimTypes.Name, user.UserName));
                 context.IssuedClaims.AddRange(context.Subject.Claims);
             }

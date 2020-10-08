@@ -17,5 +17,14 @@ namespace geesRecorder.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        public DbSet<Attendance> Attendances { get; set; }
+
+        public DbSet<DataCollation> DataCollations { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }
