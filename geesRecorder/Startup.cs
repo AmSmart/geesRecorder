@@ -15,6 +15,8 @@ using System;
 using System.Linq;
 using geesRecorder.Services;
 using Microsoft.AspNetCore.HttpOverrides;
+using AutoMapper;
+using geesRecorder.Interfaces;
 
 namespace geesRecorder
 {
@@ -58,6 +60,8 @@ namespace geesRecorder
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddIdentityServer(config =>
             {
                 config.UserInteraction.ErrorUrl = "/Error";
@@ -95,6 +99,10 @@ namespace geesRecorder
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddScoped<IAttendanceManager, AttendanceManager>();
+            services.AddScoped<IPermissionManager, PermissionManager>();
+            services.AddScoped<IDataCollectionManager, DataCollectionManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,7 +112,7 @@ namespace geesRecorder
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {

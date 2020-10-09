@@ -9,14 +9,14 @@ namespace geesRecorder.Interfaces
 {
     public interface IAttendanceManager
     {
-        Task CreateAttendanceAsync();
+        Task CloseAttendanceEventAsync(string eventName);
 
-        Task MarkAttendanceAsync(string attendantId, bool attended);
+        Task CreateAttendanceAsync(string actorName, string attendanceName, ICollection<Attendant> attendants);
 
-        Task<Attendance> GetAttendanceAsync(string attendanceName);
+        Task<Attendance> GetAttendanceAsync(string actorName, string attendanceId);
 
-        Task OpenAttendanceAsync(int timeInMinutes);
+        Task MarkAttendanceAsync(string eventId, bool attended);
 
-        Task CloseAttendanceAsync();
+        Task SetAttendanceEventTimeoutAsync(string eventName, int timeInMinutes);
     }
 }

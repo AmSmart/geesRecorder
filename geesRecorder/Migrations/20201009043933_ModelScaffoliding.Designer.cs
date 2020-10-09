@@ -12,48 +12,48 @@ using geesRecorder.Models;
 namespace geesRecorder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201008002735_ModelScaffolding")]
-    partial class ModelScaffolding
+    [Migration("20201009043933_ModelScaffoliding")]
+    partial class ModelScaffoliding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .UseIdentityByDefaultColumns()
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.0-rc.1.20451.13");
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
                     b.Property<string>("UserCode")
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("character varying(50000)")
-                        .HasMaxLength(50000);
+                        .HasMaxLength(50000)
+                        .HasColumnType("character varying(50000)");
 
                     b.Property<string>("DeviceCode")
                         .IsRequired()
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .IsRequired()
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SubjectId")
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("UserCode");
 
@@ -68,33 +68,33 @@ namespace geesRecorder.Migrations
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>
                 {
                     b.Property<string>("Key")
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("character varying(50000)")
-                        .HasMaxLength(50000);
+                        .HasMaxLength(50000)
+                        .HasColumnType("character varying(50000)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SubjectId")
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Key");
 
@@ -115,18 +115,18 @@ namespace geesRecorder.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -136,7 +136,7 @@ namespace geesRecorder.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -160,7 +160,7 @@ namespace geesRecorder.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -182,12 +182,12 @@ namespace geesRecorder.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("character varying(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("character varying(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -224,12 +224,12 @@ namespace geesRecorder.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("character varying(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("character varying(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -252,8 +252,8 @@ namespace geesRecorder.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
@@ -271,12 +271,12 @@ namespace geesRecorder.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
@@ -287,6 +287,9 @@ namespace geesRecorder.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<List<string>>("ProjectPermissions")
+                        .HasColumnType("text[]");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -294,17 +297,17 @@ namespace geesRecorder.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -330,6 +333,33 @@ namespace geesRecorder.Migrations
                     b.ToTable("Attendances");
                 });
 
+            modelBuilder.Entity("geesRecorder.Models.AttendanceEvent", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AttendantId")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Attended")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttendantId");
+
+                    b.ToTable("AttendanceEvents");
+                });
+
             modelBuilder.Entity("geesRecorder.Models.Attendant", b =>
                 {
                     b.Property<string>("Id")
@@ -338,9 +368,6 @@ namespace geesRecorder.Migrations
                     b.Property<string>("AttendanceId")
                         .HasColumnType("text");
 
-                    b.Property<ICollection<AttendanceEvent>>("Events")
-                        .HasColumnType("jsonb");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -348,10 +375,10 @@ namespace geesRecorder.Migrations
 
                     b.HasIndex("AttendanceId");
 
-                    b.ToTable("Attendant");
+                    b.ToTable("Attendants");
                 });
 
-            modelBuilder.Entity("geesRecorder.Models.DataCollation", b =>
+            modelBuilder.Entity("geesRecorder.Models.DataCollection", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -375,7 +402,7 @@ namespace geesRecorder.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("DataCollations");
+                    b.ToTable("DataCollections");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -431,23 +458,55 @@ namespace geesRecorder.Migrations
 
             modelBuilder.Entity("geesRecorder.Models.Attendance", b =>
                 {
-                    b.HasOne("geesRecorder.Models.ApplicationUser", null)
+                    b.HasOne("geesRecorder.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Attendances")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("geesRecorder.Models.AttendanceEvent", b =>
+                {
+                    b.HasOne("geesRecorder.Models.Attendant", "Attendant")
+                        .WithMany("Events")
+                        .HasForeignKey("AttendantId");
+
+                    b.Navigation("Attendant");
                 });
 
             modelBuilder.Entity("geesRecorder.Models.Attendant", b =>
                 {
-                    b.HasOne("geesRecorder.Models.Attendance", null)
+                    b.HasOne("geesRecorder.Models.Attendance", "Attendance")
                         .WithMany("Attendants")
                         .HasForeignKey("AttendanceId");
+
+                    b.Navigation("Attendance");
                 });
 
-            modelBuilder.Entity("geesRecorder.Models.DataCollation", b =>
+            modelBuilder.Entity("geesRecorder.Models.DataCollection", b =>
                 {
-                    b.HasOne("geesRecorder.Models.ApplicationUser", null)
-                        .WithMany("DataCollations")
+                    b.HasOne("geesRecorder.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("DataCollections")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("geesRecorder.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Attendances");
+
+                    b.Navigation("DataCollections");
+                });
+
+            modelBuilder.Entity("geesRecorder.Models.Attendance", b =>
+                {
+                    b.Navigation("Attendants");
+                });
+
+            modelBuilder.Entity("geesRecorder.Models.Attendant", b =>
+                {
+                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

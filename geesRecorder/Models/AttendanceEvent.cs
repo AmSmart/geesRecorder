@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 namespace geesRecorder.Models
 {
     public class AttendanceEvent
-    {        
+    {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public DateTime DateTime { get; set; }
@@ -15,5 +17,8 @@ namespace geesRecorder.Models
         public DateTime Deadline { get; set; }
 
         public bool Attended { get; set; }
+
+        // Navigation Property - One(One to Many)
+        public virtual Attendant Attendant { get; set; }
     }
 }

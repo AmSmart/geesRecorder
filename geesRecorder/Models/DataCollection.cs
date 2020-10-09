@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace geesRecorder.Models
 {
-    public class DataCollation
+    public class DataCollection
     {
         public string Id { get; set; }
 
@@ -19,5 +19,8 @@ namespace geesRecorder.Models
 
         [Column(TypeName = "jsonb")]
         public virtual ICollection<Record> Records { get; set; }
+
+        // Navigation Property - One(One to Many)
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

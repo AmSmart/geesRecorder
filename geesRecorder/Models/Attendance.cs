@@ -11,9 +11,13 @@ namespace geesRecorder.Models
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }        
+        public string Name { get; set; }
 
+        // Navigation Property - Many(One to Many)
         public virtual ICollection<Attendant> Attendants { get; set; }
+
+        // Navigation Property - One(One to Many)
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         [Column(TypeName = "jsonb")]
         public ICollection<AttendanceEvent> EventTracker { get; set; }
