@@ -19,24 +19,29 @@ namespace geesRecorder.Services
             _dbContext = dbContext;
         }
 
-        public async Task CloseAttendanceEventAsync(string eventName)
+        public async Task CreateAttendanceEvent(int attendanceId, string name, DateTime start, DateTime end)
         {
-            var attendanceEvents = _dbContext.AttendanceEvents.Where(x => x.Name == eventName);
-
-            foreach (var @event in attendanceEvents)
+            var attendance = await _dbContext.Attendances.FindAsync(attendanceId);
+            attendance.Events.Add(new AttendanceEvent
             {
-                @event.Deadline = DateTime.Now;
-            }
-            
+                Name = name,
+                Start = start,
+                End = end,
+                AttendantRecords = attendance.Attendants.Select(x => new AttendantRecord
+                {
+                    Attendant = x,                    
+                })
+                .ToList()
+            });
+
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task CreateAttendanceAsync(string actorName, string attendanceName, ICollection<Attendant> attendants)
+        public async Task CreateAttendanceAsync(string actorName, string attendanceName)
         {
             var attendance = new Attendance
             {
-                Name = attendanceName,
-                Attendants = attendants
+                Name = attendanceName
             };
 
             (await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName == actorName))
@@ -47,27 +52,46 @@ namespace geesRecorder.Services
 
         }
 
-        public async Task<Attendance> GetAttendanceAsync(string actorName, string attendanceName)        
-            => (await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName == actorName))
-            .Attendances
-            .FirstOrDefault(x => x.Name == attendanceName);        
-
-        public async Task MarkAttendanceAsync(string eventId, bool attended)
+        public async Task EnrollAttendantsAsync(int attendanceId, List<Attendant> attendants)
         {
-            var attendeanceEvent = (await _dbContext.AttendanceEvents.FindAsync(eventId));
-            attendeanceEvent.Attended = attended;
-            _dbContext.SaveChanges();                
-        }
+            var attendance = await _dbContext.Attendances.FindAsync(attendanceId);
 
-        public async Task SetAttendanceEventTimeoutAsync(string eventName, int timeInMinutes)
-        {
-            var attendanceEvents = _dbContext.AttendanceEvents.Where(x => x.Name == eventName);
-
-            foreach (var @event in attendanceEvents)
+            foreach (var attendant in attendants)
             {
-                @event.Deadline = DateTime.Now.AddMinutes(timeInMinutes);
+                foreach (var @event in attendance.Events)
+                {
+                    attendant.AttendantRecords.Add(new AttendantRecord
+                    {
+                        AttendanceEvent = @event
+                    });
+                }
             }
 
+            attendance.Attendants.AddRange(attendants);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Attendance> GetAttendanceAsync(int attendanceId)
+            => await _dbContext.Attendances.FindAsync(attendanceId);
+
+        public async Task MarkAttendanceAsync(string eventId, int attendantId)
+        {
+            var attendanceEvent = await _dbContext.AttendanceEvents.FindAsync(eventId);
+            var attendanceRecord = attendanceEvent.AttendantRecords.First(x => x.Attendant.Id == attendantId);
+
+            attendanceRecord.Attended = true;
+            attendanceRecord.TimeStamp = DateTime.UtcNow;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAttendanceEventAsync(int eventId, DateTime start, DateTime end)
+        {
+            var attendanceEvent = await _dbContext.AttendanceEvents.FindAsync(eventId);
+            
+            attendanceEvent.Start = start;
+            attendanceEvent.End = end;
+                        
             await _dbContext.SaveChangesAsync();
         }
     }

@@ -3,10 +3,6 @@ using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace geesRecorder.Data
 {
@@ -23,6 +19,8 @@ namespace geesRecorder.Data
         public DbSet<DataCollection> DataCollections { get; set; }
 
         public DbSet<AttendanceEvent> AttendanceEvents { get; set; }
+
+        public DbSet<AttendantRecord> AttendantRecords { get; set; }
 
         public DbSet<Attendant> Attendants { get; set; }
 

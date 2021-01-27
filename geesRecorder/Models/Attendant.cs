@@ -5,14 +5,14 @@ namespace geesRecorder.Models
 {
     public class Attendant
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+
+        public string ExternalId { get; set; }
 
         public string Name { get; set; }
 
-        // Navigation Property - One(One to Many)
         public virtual Attendance Attendance { get; set; }
 
-        // Navigation Property - Many(One to Many)
-        public virtual ICollection<AttendanceEvent> Events { get; set; }        
+        public virtual List<AttendantRecord> AttendantRecords { get; set; }
     }
 }

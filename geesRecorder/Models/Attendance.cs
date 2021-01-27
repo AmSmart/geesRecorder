@@ -7,19 +7,16 @@ using System.Threading.Tasks;
 
 namespace geesRecorder.Models
 {
-    public class Attendance
+    public record Attendance
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
+        
+        public virtual List<Attendant> Attendants { get; set; }
 
-        // Navigation Property - Many(One to Many)
-        public virtual ICollection<Attendant> Attendants { get; set; }
+        public virtual List<ApplicationUser> ApplicationUser { get; set; }
 
-        // Navigation Property - One(One to Many)
-        public virtual ApplicationUser ApplicationUser { get; set; }
-
-        [Column(TypeName = "jsonb")]
-        public ICollection<AttendanceEvent> EventTracker { get; set; }
+        public virtual List<AttendanceEvent> Events { get; set; }
     }
 }

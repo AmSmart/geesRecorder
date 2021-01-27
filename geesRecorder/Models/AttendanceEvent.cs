@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 
 namespace geesRecorder.Models
 {
-    public class AttendanceEvent
+    public record AttendanceEvent
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; }        
 
-        public DateTime DateTime { get; set; }
+        public DateTime Start { get; set; }
 
-        public DateTime Deadline { get; set; }
+        public DateTime End { get; set; }
 
-        public bool Attended { get; set; }
+        public virtual Attendance Attendance { get; set; }
 
-        // Navigation Property - One(One to Many)
-        public virtual Attendant Attendant { get; set; }
+        public virtual List<AttendantRecord> AttendantRecords { get; set; }
     }
 }

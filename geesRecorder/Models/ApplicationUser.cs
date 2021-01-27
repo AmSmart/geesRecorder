@@ -15,7 +15,7 @@ namespace geesRecorder.Models
         // Navigation Property - Many(One to Many)
         public virtual ICollection<Attendance> Attendances { get; set; }
 
-        // Navigation Property - Many(One to Many)
+        // Navigation Property - Many to Many
         public virtual ICollection<DataCollection> DataCollections { get; set; }
 
         public List<string> ProjectPermissions { get; set; }
