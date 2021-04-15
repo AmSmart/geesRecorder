@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace geesRecorderApi.Controllers
 {
     [Authorize]
+    [Route("attendance")]
     public class AttendanceController : ControllerBase
     {
         private readonly IAttendanceManager _attendanceManager;

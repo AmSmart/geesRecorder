@@ -8,6 +8,6 @@ namespace geesRecorderApi
 {
     public class Constants
     {
-        
+        public const string InvalidLoginCredentials = "Invalid login credentials";
     }
 }

@@ -19,7 +19,7 @@ namespace geesRecorderApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task CreateAttendanceEvent(int attendanceId, string name, DateTime start, DateTime end)
+        public async Task CreateAttendanceEventAsync(int attendanceId, string name, DateTime start, DateTime end)
         {
             var attendance = await _dbContext.Attendances.FindAsync(attendanceId);
             attendance.Events.Add(new AttendanceEvent

@@ -17,6 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace geesRecorderApi
 {
@@ -32,9 +35,8 @@ namespace geesRecorderApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = Environment.GetEnvironmentVariable("GEES_REC_DATABASE_URL");
+            string connectionString = Configuration["DATABASE_URL"];
             connectionString += ";sslmode=Require;Trust Server Certificate=true;";
-            string thisAssemblyName = typeof(Startup).Assembly.FullName;
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -56,6 +58,33 @@ namespace geesRecorderApi
                 options.UseLazyLoadingProxies();
                 options.UseNpgsql(connStr);
             });
+
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthentication()
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt_Issuer"],
+                        ValidAudience = Configuration["Jwt_Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt_Key"]))
+                    };
+                });
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -79,6 +108,7 @@ namespace geesRecorderApi
             services.AddScoped<IAttendanceManager, AttendanceManager>();
             services.AddScoped<IPermissionManager, PermissionManager>();
             services.AddScoped<IDataCollectionManager, DataCollectionManager>();
+            services.AddScoped<AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,6 +126,7 @@ namespace geesRecorderApi
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
