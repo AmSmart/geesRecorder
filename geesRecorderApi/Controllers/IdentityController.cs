@@ -1,6 +1,7 @@
 ﻿using geesRecorderApi.DTOs;
 using geesRecorderApi.Models;
 using geesRecorderApi.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,8 @@ using System.Threading.Tasks;
 
 namespace geesRecorderApi.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ApiController]
     [Route("auth")]
     public class IdentityController : ControllerBase
     {
@@ -29,11 +31,11 @@ namespace geesRecorderApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("signin")]
-        public async Task<IActionResult> SignInAsync(string email, string password)
+        public async Task<IActionResult> SignInAsync(SignInDTO dto)
         {
-            var user = await _userManager.FindByNameAsync(email); 
+            var user = await _userManager.FindByNameAsync(dto.Email); 
 
-            if(user is not null && await _userManager.CheckPasswordAsync(user, password))
+            if(user is not null && await _userManager.CheckPasswordAsync(user, dto.Password))
             {
                 var token = new JwtTokenDTO(_authService.GenerateJSONWebToken(user));
                 return Ok(token);
@@ -53,15 +55,16 @@ namespace geesRecorderApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("signup")]
-        public async Task<IActionResult> SignUpAsync(string email, string password)
+        public async Task<IActionResult> SignUpAsync(SignUpDTO signUpDTO)
         {
             var user = new ApplicationUser
             {
-                UserName = email,
-                Email = email,
+                UserName = signUpDTO.Email,
+                Email = signUpDTO.Email,
+                Pin = signUpDTO.Pin
             };
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, signUpDTO.Password);
 
             if (result.Succeeded)
             {
@@ -72,9 +75,5 @@ namespace geesRecorderApi.Controllers
             string errors = string.Join(",", result.Errors);
             return BadRequest(errors);
         }
-
-        [AllowAnonymous]
-        [HttpGet("test")]
-        public IActionResult Test() => Ok("dfbgnmbvcd");
     }
 }

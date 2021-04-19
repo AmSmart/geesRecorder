@@ -8,6 +8,8 @@ namespace geesRecorderApi.Models
 {
     public record AttendantRecord
     {
+        public int Id { get; set; }
+
         public bool Attended { get; set; }
 
         public DateTime? TimeStamp { get; set; }
