@@ -1,4 +1,5 @@
 # geesRecorder
+Backend API for a Raspberry Pi fingerprint based attendance System
 
 ## Download the dotnet SDK from here
 https://dotnet.microsoft.com/download/dotnet-core/3.1
