@@ -1,4 +1,5 @@
-﻿using geesRecorder.Shared.DTOs;
+﻿using geesRecorder.Shared;
+using geesRecorder.Shared.DTOs;
 using geesRecorder.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace geesRecorder.Client.Client.Services
 
         public ApiClient(HttpClient httpClient)
         {
-            _httpClient = httpClient; 
+            _httpClient = httpClient;
         }
 
         public async Task<OperationResult> CreateProject(string name, ProjectType type)
