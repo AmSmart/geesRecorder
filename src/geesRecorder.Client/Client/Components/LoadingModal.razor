@@ -1,0 +1,33 @@
+﻿<MatDialog CanBeClosed="false" @bind-IsOpen="@IsActive">
+    @if (Title is not null)
+    {
+        <MatDialogTitle>@Title</MatDialogTitle>
+    }
+    <MatDialogContent>
+        @Child
+        <Loading />
+    </MatDialogContent>
+    @if (IsAbortable)
+    {
+        <MatDialogActions>
+            <MatButton OnClick="Abort">Abort</MatButton>
+        </MatDialogActions>
+    }
+</MatDialog>
+
+@code{
+    [Parameter]
+    public RenderFragment Child { get; set; }
+
+    [Parameter]
+    public bool IsActive { get; set; }
+
+    [Parameter]
+    public bool IsAbortable { get; set; } = false;
+
+    [Parameter]
+    public Action Abort { get; set; } = null;
+
+    [Parameter]
+    public string Title { get; set; } = null;
+}
