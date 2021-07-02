@@ -1,4 +1,5 @@
-﻿using geesRecorder.Shared.Models;
+﻿using geesRecorder.Shared.DTOs;
+using geesRecorder.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -76,7 +77,7 @@ namespace geesRecorder.Client.Server.Data
                 .HasValue<DataCollectionProject>(ProjectType.DataCollection);            
         }
 
-        public async Task<DBSync> GetDBSnapshot()
+        public async Task<DBSnapshot> GetDBSnapshot()
         {
             var attendanceProjects = await AttendanceProjects.ToListAsync();
             var dataCollections = await DataCollectionProjects.ToListAsync();
@@ -114,7 +115,7 @@ namespace geesRecorder.Client.Server.Data
                 attendaceRegisters.Add(attendanceRegister);
             }
 
-            var dbSync = new DBSync
+            var dbSync = new DBSnapshot
             {
                 DataCollectionRecords = dataCollections,
                 AttendanceRegisters = attendaceRegisters
