@@ -1,0 +1,109 @@
+﻿@page "/"
+@inject HttpClient HttpClient
+
+<h1>Hello!</h1>
+
+Welcome to geesRecorder.
+
+@if (LoggedIn is null)
+{
+    <Loading />
+}
+else if (LoggedIn == false)
+{
+    if (SignUpToggle)
+    {
+        @SignUp
+    }
+    else
+    {
+        @SignIn
+    }
+}
+
+@code{
+    
+    protected RenderFragment SignUp => __builder =>
+        {
+        <h5>Create a new account!</h5>
+        <EditForm Model="@SignUpDTO" OnValidSubmit="SignUpSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <MatTextField Class="form-control" Type="Email" HideClearButton="false" Label="Email" @bind-Value="SignUpDTO.Email" />
+            <MatTextField Class="form-control" Type="Password" Label="Password" @bind-Value="SignUpDTO.Password" />
+            <MatTextField Class="form-control" Type="Password" Label="Confirm Password" @bind-Value="SignUpDTO.ConfirmPassword" />
+            <MatTextField Class="form-control" Type="Password" Label="4-digit Pin" @bind-Value="SignUpDTO.Pin" />
+            <MatButton Type="submit" class="btn btn-primary">Submit</MatButton>
+        </EditForm>
+        <a @onclick="Toggle" href=""><u>Already have an account? Sign In</u></a>
+        };
+
+    protected RenderFragment SignIn => __builder =>
+    {
+        <h5>Sign in to an existing account!</h5>
+        <EditForm Model="@SignInDTO" OnValidSubmit="SignInSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <MatTextField Class="form-control" HideClearButton="false" Label="Email" @bind-Value="@SignInDTO.Email" />
+            <MatTextField Class="form-control" Type="Password" Label="Password" @bind-Value="@SignInDTO.Password" />
+            <MatButton Type="submit" class="btn btn-primary">Submit</MatButton>
+        </EditForm>
+        <a @onclick="Toggle" href=""><u>Don't have an account? Sign Up</u></a>
+    };
+
+    [Inject]
+    public Authentication Authentication { get; set; }
+
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    protected IMatToaster Toaster { get; set; }
+
+    public SignUpDTO SignUpDTO { get; set; } = new();
+
+    public SignInDTO SignInDTO { get; set; } = new();
+
+    public bool? LoggedIn { get; set; } = null;
+
+    public bool SignUpToggle { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LoggedIn = await Authentication.IsLoggedInAsync();
+
+        if (LoggedIn == true)
+        {            
+            NavigationManager.NavigateTo(ClientRoutes.Dashboard);
+        }
+    }
+
+    public async Task SignUpSubmit()
+    {
+        var result = await Authentication.SignUpAsync(SignUpDTO);
+        if (result.Succeeded)
+        {
+            NavigationManager.NavigateTo(ClientRoutes.Dashboard);
+        }
+        else
+        {
+            Toaster.Add("Error!", MatToastType.Danger);
+        }
+
+    }
+
+    public async Task SignInSubmit()
+    {
+        var result = await Authentication.SignInAsync(SignInDTO);
+        if (result.Succeeded)
+        {
+            NavigationManager.NavigateTo(ClientRoutes.Dashboard);
+        }
+        else
+        {
+            Toaster.Add("Error!", MatToastType.Danger);
+        }
+    }
+
+    public void Toggle() => SignUpToggle = !SignUpToggle;
+}

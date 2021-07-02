@@ -230,3 +230,7 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+**/geesRecorder.Client/Server/geesRecorder.db-shm
+**/geesRecorder.Client/Server/geesRecorder.db-wal
+**/geesRecorder.Client/Server/geesRecorder.db

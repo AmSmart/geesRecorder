@@ -1,0 +1,12 @@
+﻿@if (!Hidden)
+{
+    <br />
+    <div class="text-center">
+        <img src="/img/loader.svg" />
+    </div>
+}
+
+@code{
+    [Parameter]
+    public bool Hidden { get; set; }
+}

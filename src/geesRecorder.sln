@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "geesRecorderApi", "geesRecorder.Api\geesRecorder.Api.csproj", "{79E5A640-826D-4848-BF8D-EAD38842C9AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "geesRecorderClient.Shared", "geesRecorder.Shared\geesRecorder.Shared.csproj", "{3E4E28BE-D75E-4B9C-AFFC-AF359A5EBC2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "geesRecorderClient.Client", "geesRecorder.Client\Client\geesRecorder.Client.Client.csproj", "{7AAFEF19-2938-4120-A476-160C814C649A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "geesRecorderClient.Server", "geesRecorder.Client\Server\geesRecorder.Client.Server.csproj", "{D19200D4-2CC5-4E2C-A0D4-9421B25C37F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79E5A640-826D-4848-BF8D-EAD38842C9AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79E5A640-826D-4848-BF8D-EAD38842C9AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79E5A640-826D-4848-BF8D-EAD38842C9AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79E5A640-826D-4848-BF8D-EAD38842C9AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E4E28BE-D75E-4B9C-AFFC-AF359A5EBC2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E4E28BE-D75E-4B9C-AFFC-AF359A5EBC2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E4E28BE-D75E-4B9C-AFFC-AF359A5EBC2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E4E28BE-D75E-4B9C-AFFC-AF359A5EBC2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AAFEF19-2938-4120-A476-160C814C649A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AAFEF19-2938-4120-A476-160C814C649A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AAFEF19-2938-4120-A476-160C814C649A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AAFEF19-2938-4120-A476-160C814C649A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D19200D4-2CC5-4E2C-A0D4-9421B25C37F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D19200D4-2CC5-4E2C-A0D4-9421B25C37F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D19200D4-2CC5-4E2C-A0D4-9421B25C37F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D19200D4-2CC5-4E2C-A0D4-9421B25C37F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA1727F0-1156-4719-95F4-93FBA278DD16}
+	EndGlobalSection
+EndGlobal

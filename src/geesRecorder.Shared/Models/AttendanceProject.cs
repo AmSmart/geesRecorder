@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace geesRecorder.Shared.Models
+{
+    public class AttendanceProject : Project
+    {
+        public virtual List<Person> Persons { get; set; }
+
+        public virtual List<Event> Events { get; set; }
+    }
+}
