@@ -16,15 +16,7 @@ namespace geesRecorder.Api.Data
         {
         }
 
-        public DbSet<Attendance> Attendances { get; set; }
-
-        public DbSet<DataCollection> DataCollections { get; set; }
-
-        public DbSet<AttendanceEvent> AttendanceEvents { get; set; }
-
-        public DbSet<AttendantRecord> AttendantRecords { get; set; }
-
-        public DbSet<Attendant> Attendants { get; set; }
+        public DbSet<DBBackup> DBBackups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

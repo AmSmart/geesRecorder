@@ -18,32 +18,14 @@ namespace geesRecorder.Api.Services
             _dbContext = dbContext;
         }
 
-        public async Task GrantAttendancePermissionAsync(Permission permission, string userName, string attendanceId)
+        public Task GrantAttendancePermissionAsync(Permission permission, string userName, string attendanceId)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName == userName);
-            //var attendance = await _dbContext.Attendances.FirstOrDefaultAsync(x => x.Id == attendanceId);
-
-            //string permissionString = GeneratePermissionString(attendance.Id, permission);
-
-            //user.ProjectPermissions.Add(permissionString);
-
-            //user.Attendances.Add(attendance);
-
-            await _dbContext.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task GrantDataCollectionPermissionAsync(Permission permission, string userName, string dataCollectionId)
+        public Task GrantDataCollectionPermissionAsync(Permission permission, string userName, string dataCollectionId)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName == userName);
-            var dataCollection = await _dbContext.DataCollections.FirstOrDefaultAsync(x => x.Id == dataCollectionId);
-
-            string permissionString = GeneratePermissionString(dataCollection.Id, permission);
-
-            user.ProjectPermissions.Add(permissionString);
-
-            user.DataCollections.Add(dataCollection);
-
-            await _dbContext.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
         public Task<bool> HasPermission(Permission permission, ProjectType projectType, string projectId, string userName)

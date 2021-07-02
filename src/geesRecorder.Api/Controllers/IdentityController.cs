@@ -1,6 +1,6 @@
-﻿using geesRecorder.Api.DTOs;
-using geesRecorder.Api.Models;
+﻿using geesRecorder.Api.Models;
 using geesRecorder.Api.Services;
+using geesRecorder.Shared.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

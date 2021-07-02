@@ -105,9 +105,7 @@ namespace geesRecorder.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "geesRecorder.Api", Version = "v1" });
             });
 
-            services.AddScoped<IAttendanceManager, AttendanceManager>();
             services.AddScoped<IPermissionManager, PermissionManager>();
-            services.AddScoped<IDataCollectionManager, DataCollectionManager>();
             services.AddScoped<AuthService>();
         }
 

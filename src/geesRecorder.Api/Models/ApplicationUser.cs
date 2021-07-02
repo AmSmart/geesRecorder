@@ -13,13 +13,5 @@ namespace geesRecorder.Api.Models
         public string LastName { get; set; }
 
         public string Pin { get; set; }
-
-        // Navigation Property - Many(One to Many)
-        public virtual ICollection<Attendance> Attendances { get; set; }
-
-        // Navigation Property - Many to Many
-        public virtual ICollection<DataCollection> DataCollections { get; set; }
-
-        public List<string> ProjectPermissions { get; set; }
     }
 }

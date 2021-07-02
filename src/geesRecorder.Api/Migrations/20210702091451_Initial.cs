@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using geesRecorder.Api.Models;
+using geesRecorder.Shared.DTOs;
 
 namespace geesRecorder.Api.Migrations
 {
@@ -31,7 +30,7 @@ namespace geesRecorder.Api.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
-                    ProjectPermissions = table.Column<List<string>>(type: "text[]", nullable: true),
+                    Pin = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -53,16 +52,18 @@ namespace geesRecorder.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Attendances",
+                name: "DBBackups",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true)
+                    MachineName = table.Column<string>(type: "text", nullable: true),
+                    MachineCode = table.Column<string>(type: "text", nullable: true),
+                    DBSnapshot = table.Column<DBSnapshot>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Attendances", x => x.Id);
+                    table.PrimaryKey("PK_DBBackups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,127 +172,6 @@ namespace geesRecorder.Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "DataCollections",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    TextFieldsSchema = table.Column<string>(type: "text", nullable: true),
-                    NumberFieldsSchema = table.Column<string>(type: "text", nullable: true),
-                    SelectionFieldsSchema = table.Column<string>(type: "text", nullable: true),
-                    Records = table.Column<ICollection<Record>>(type: "jsonb", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DataCollections", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DataCollections_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ApplicationUserAttendance",
-                columns: table => new
-                {
-                    ApplicationUserId = table.Column<string>(type: "text", nullable: false),
-                    AttendancesId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ApplicationUserAttendance", x => new { x.ApplicationUserId, x.AttendancesId });
-                    table.ForeignKey(
-                        name: "FK_ApplicationUserAttendance_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ApplicationUserAttendance_Attendances_AttendancesId",
-                        column: x => x.AttendancesId,
-                        principalTable: "Attendances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AttendanceEvents",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Start = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    End = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    AttendanceId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AttendanceEvents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AttendanceEvents_Attendances_AttendanceId",
-                        column: x => x.AttendanceId,
-                        principalTable: "Attendances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Attendants",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ExternalId = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    AttendanceId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attendants", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Attendants_Attendances_AttendanceId",
-                        column: x => x.AttendanceId,
-                        principalTable: "Attendances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AttendantRecords",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Attended = table.Column<bool>(type: "boolean", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    AttendantId = table.Column<int>(type: "integer", nullable: true),
-                    AttendanceEventId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AttendantRecords", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AttendantRecords_AttendanceEvents_AttendanceEventId",
-                        column: x => x.AttendanceEventId,
-                        principalTable: "AttendanceEvents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AttendantRecords_Attendants_AttendantId",
-                        column: x => x.AttendantId,
-                        principalTable: "Attendants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUserAttendance_AttendancesId",
-                table: "ApplicationUserAttendance",
-                column: "AttendancesId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -328,38 +208,10 @@ namespace geesRecorder.Api.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AttendanceEvents_AttendanceId",
-                table: "AttendanceEvents",
-                column: "AttendanceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AttendantRecords_AttendanceEventId",
-                table: "AttendantRecords",
-                column: "AttendanceEventId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AttendantRecords_AttendantId",
-                table: "AttendantRecords",
-                column: "AttendantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attendants_AttendanceId",
-                table: "Attendants",
-                column: "AttendanceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DataCollections_ApplicationUserId",
-                table: "DataCollections",
-                column: "ApplicationUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ApplicationUserAttendance");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -376,25 +228,13 @@ namespace geesRecorder.Api.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AttendantRecords");
-
-            migrationBuilder.DropTable(
-                name: "DataCollections");
+                name: "DBBackups");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AttendanceEvents");
-
-            migrationBuilder.DropTable(
-                name: "Attendants");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Attendances");
         }
     }
 }
