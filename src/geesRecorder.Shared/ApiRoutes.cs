@@ -9,7 +9,7 @@ namespace geesRecorder.Shared
     public class ApiRoutes
     {
         //public const string ApiBaseAddress = "https://localhost:3001/";
-        public const string ApiBaseAddress = "https://gees-recorder.herokuapp.com";
+        public const string ApiBaseAddress = "https://gees-recorder.herokuapp.com/";
         public const string ApiSignUp = "/auth/signup";
         public const string ApiSignIn = "/auth/signin";
         public const string ApiRefreshToken = "/auth/refresh";
