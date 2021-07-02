@@ -4,7 +4,7 @@
 <h1>Hello!</h1>
 
 Welcome to geesRecorder.
-
+<LoadingModal IsActive="AuthLoading" />
 @if (LoggedIn is null)
 {
     <Loading />
@@ -68,6 +68,8 @@ else if (LoggedIn == false)
 
     public bool SignUpToggle { get; set; } = true;
 
+    public bool AuthLoading { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         LoggedIn = await Authentication.IsLoggedInAsync();
@@ -80,6 +82,7 @@ else if (LoggedIn == false)
 
     public async Task SignUpSubmit()
     {
+        AuthLoading = true;
         var result = await Authentication.SignUpAsync(SignUpDTO);
         if (result.Succeeded)
         {
@@ -89,11 +92,13 @@ else if (LoggedIn == false)
         {
             Toaster.Add("Error!", MatToastType.Danger);
         }
+        AuthLoading = false;
 
     }
 
     public async Task SignInSubmit()
     {
+        AuthLoading = true;
         var result = await Authentication.SignInAsync(SignInDTO);
         if (result.Succeeded)
         {
@@ -103,6 +108,7 @@ else if (LoggedIn == false)
         {
             Toaster.Add("Error!", MatToastType.Danger);
         }
+        AuthLoading = false;
     }
 
     public void Toggle() => SignUpToggle = !SignUpToggle;
