@@ -57,7 +57,7 @@ namespace geesRecorder.Client.Server.Services
         {
             _process = new Process();
             ProcessStartInfo start = new ProcessStartInfo();            
-            start.FileName = "python";
+            start.FileName = "python3";
             start.Arguments = string.Format("\"{0}\" \"{1}\"", cmd, args);
             start.UseShellExecute = false;// Do not use OS shell
             start.CreateNoWindow = true; // We don't need new window
