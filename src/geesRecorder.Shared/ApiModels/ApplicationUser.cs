@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace geesRecorder.Api.Models
+namespace geesRecorder.Shared.ApiModels
 {
     public class ApplicationUser : IdentityUser
     {

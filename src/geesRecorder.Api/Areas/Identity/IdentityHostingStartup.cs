@@ -1,6 +1,6 @@
 ﻿using System;
 using geesRecorder.Api.Data;
-using geesRecorder.Api.Models;
+using geesRecorder.Shared.ApiModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;

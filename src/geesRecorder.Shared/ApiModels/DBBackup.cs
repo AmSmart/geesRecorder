@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace geesRecorder.Api.Models
+namespace geesRecorder.Shared.ApiModels
 {
     public class DBBackup
     {

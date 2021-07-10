@@ -1,5 +1,5 @@
 using AutoMapper;
-using geesRecorder.Api.Data;using geesRecorder.Api.Models;
+using geesRecorder.Api.Data;using geesRecorder.Shared.ApiModels;
 using geesRecorder.Api.Interfaces;
 using geesRecorder.Api.Services;
 using Microsoft.AspNetCore.Builder;

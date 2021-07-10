@@ -1,5 +1,5 @@
 ﻿using geesRecorder.Api.Data;
-using geesRecorder.Api.Models;
+using geesRecorder.Shared.ApiModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

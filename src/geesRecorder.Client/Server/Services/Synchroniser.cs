@@ -1,4 +1,4 @@
-﻿using geesRecorder.Api.Models;
+﻿using geesRecorder.Shared.ApiModels;
 using geesRecorder.Client.Server.Data;
 using geesRecorder.Shared;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,7 +42,7 @@ namespace geesRecorder.Client.Server.Services
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var dbSnapshot = await dbContext.GetDBSnapshot();
-                // TODO: Remove reference to geesREcorder.Api, move all Models to geesRecorder.Shared
+                
                 var dbBackup = new DBBackup
                 {
                     DBSnapshot = dbSnapshot,
