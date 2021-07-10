@@ -142,9 +142,9 @@ else
         <MatDialogContent>
             <MatSelect Label="Choose Event" @bind-Value="_selectedEventId">
                 @foreach (var attendanceEvent in ActiveEvents)
-                {
+                    {
                     <MatOption TValue="int" Value="attendanceEvent.Id">@attendanceEvent.Name</MatOption>
-                }
+                    }
             </MatSelect>
         </MatDialogContent>
         <MatDialogActions>
@@ -215,12 +215,17 @@ else
 
     public void MarkAttendance(int eventId)
     {
-        _markAttendanceDialogIsOpen = false;
-        var queryParams = new Dictionary<string, string>
-{
-            {"eventId", $"{eventId}"}
-        };
-        NavigationManager.NavigateTo(QueryHelpers.AddQueryString($"{ClientRoutes.MarkAttendance}/{Id}", queryParams));
+        if (eventId > 0)
+        {
+            _markAttendanceDialogIsOpen = false;
+            var queryParams = new Dictionary<string, string> { {"eventId", $"{eventId}"} };
+            NavigationManager.NavigateTo(QueryHelpers.AddQueryString($"{ClientRoutes.MarkAttendance}/{Id}", queryParams));
+        }
+        else
+        {
+            Toaster.Add("Invalid Event", MatToastType.Danger);
+        }
+
     }
 
     public async Task AddEvent()
