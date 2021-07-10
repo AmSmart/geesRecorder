@@ -104,8 +104,8 @@ namespace geesRecorder.Client.Server.Data
                                 CustomId = y.CustomId,
                                 FirstName = y.FirstName,
                                 LastName = y.LastName,
-                                TimeIn = personEvent.TimeIn,
-                                TimeOut = personEvent.TimeOut
+                                TimeIn = personEvent?.TimeIn,
+                                TimeOut = personEvent?.TimeOut
                             };
                             return person;
                         }).ToList()
