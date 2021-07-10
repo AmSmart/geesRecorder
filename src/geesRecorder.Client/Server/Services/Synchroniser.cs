@@ -12,19 +12,24 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace geesRecorder.Client.Server.Services
 {
     public class Synchroniser : IHostedService, IDisposable
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly HttpClient _httpClient;
         private Timer _timer;
 
         public Synchroniser(IHttpClientFactory httpClientFactory,
-            IServiceScopeFactory serviceScopeFactory)
+            IServiceScopeFactory serviceScopeFactory,
+            IWebHostEnvironment webHostEnvironment)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            _webHostEnvironment = webHostEnvironment;
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri(ApiRoutes.ApiBaseAddress);
         }
@@ -40,16 +45,20 @@ namespace geesRecorder.Client.Server.Services
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                var dbSnapshot = await dbContext.GetDBSnapshot();
-                
-                var dbBackup = new DBBackup
+                string dbPath = Path.Combine(_webHostEnvironment.ContentRootPath, "geesRecorder.db");
+                if (File.Exists(dbPath))
                 {
-                    DBSnapshot = dbSnapshot,
-                    MachineCode = Environment.MachineName,
-                    MachineName = Environment.UserName,
-                };
-                await _httpClient.PostAsJsonAsync("auth/sync", dbBackup);
+                    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    var dbSnapshot = await dbContext.GetDBSnapshot();
+
+                    var dbBackup = new DBBackup
+                    {
+                        DBSnapshot = dbSnapshot,
+                        MachineCode = Environment.MachineName,
+                        MachineName = Environment.UserName,
+                    };
+                    await _httpClient.PostAsJsonAsync("auth/sync", dbBackup);
+                }                
             }
         },
         null,
