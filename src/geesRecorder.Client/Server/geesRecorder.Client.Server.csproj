@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\geesRecorder.Api\geesRecorder.Api.csproj" />
     <ProjectReference Include="..\..\geesRecorder.Shared\geesRecorder.Shared.csproj" />
     <ProjectReference Include="..\Client\geesRecorder.Client.Client.csproj" />
   </ItemGroup>

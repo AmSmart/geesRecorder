@@ -43,7 +43,7 @@ namespace geesRecorder.Client.Server.Controllers
                 {
                     AccessToken = "",
                     LoggedIn = false,
-                    Pin = "1234", // TODO: Remove default pin later
+                    Pin = "",
                     LockedRoute = "",
                     RouteLockActivated = false
                 });
@@ -66,7 +66,7 @@ namespace geesRecorder.Client.Server.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var token = JsonSerializer.Deserialize<JwtTokenDTO>(await response.Content.ReadAsStringAsync(), _jsonOptions);
-                await UpdateServerStateAsync(accessToken: token.Token, loggedIn: true);
+                await UpdateServerStateAsync(accessToken: token.Token, pin: dto.Pin, loggedIn: true);
                 return Ok();
             }
 

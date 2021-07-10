@@ -4,7 +4,7 @@
         <MatDialogTitle>@Title</MatDialogTitle>
     }
     <MatDialogContent>
-        @Child
+        @ChildContent
         <Loading />
     </MatDialogContent>
     @if (IsAbortable)
@@ -17,7 +17,7 @@
 
 @code{
     [Parameter]
-    public RenderFragment Child { get; set; }
+    public RenderFragment ChildContent { get; set; } = null;
 
     [Parameter]
     public bool IsActive { get; set; }

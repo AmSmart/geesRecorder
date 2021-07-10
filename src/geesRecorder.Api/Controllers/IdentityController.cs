@@ -1,4 +1,5 @@
-﻿using geesRecorder.Api.Models;
+﻿using geesRecorder.Api.Data;
+using geesRecorder.Api.Models;
 using geesRecorder.Api.Services;
 using geesRecorder.Shared.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,12 +22,14 @@ namespace geesRecorder.Api.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AuthService _authService;
+        private readonly ApplicationDbContext _dbContext;
 
         public IdentityController(UserManager<ApplicationUser> userManager,
-            AuthService authService)
+            AuthService authService, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _authService = authService;
+            _dbContext = dbContext;
         }
 
         [AllowAnonymous]
@@ -74,6 +77,25 @@ namespace geesRecorder.Api.Controllers
 
             string errors = string.Join(",", result.Errors);
             return BadRequest(errors);
+        }
+
+        [HttpPost("sync")]
+        public async Task<IActionResult> Sync([FromBody]DBBackup dBBackup)
+        {
+            var backup = _dbContext.DBBackups.FirstOrDefault(x => x.MachineCode == dBBackup.MachineCode);
+            if(backup is not null)
+            {
+                backup.MachineName = dBBackup.MachineName;
+                backup.DBSnapshot = dBBackup.DBSnapshot;
+                _dbContext.Update(backup);
+            }
+            else
+            {
+                _dbContext.DBBackups.Add(dBBackup);
+            }
+            await _dbContext.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }

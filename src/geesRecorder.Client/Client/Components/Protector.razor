@@ -12,7 +12,7 @@ else if (RouteLockDTO.Locked && RouteLockDTO.LockedRoute != CurrentRoute)
 }
 else
 {
-    @Child
+    @ChildContent
 }
 
 @code{
@@ -28,7 +28,7 @@ else
     public RouteLockDTO RouteLockDTO { get; set; }
 
     [Parameter]
-    public RenderFragment Child { get; set; }
+    public RenderFragment ChildContent { get; set; }
 
     [RegularExpression("^[0-9]*$", ErrorMessage = "Pin must be numeric")]
     public string Pin { get; set; }

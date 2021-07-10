@@ -37,6 +37,7 @@ namespace geesRecorder.Client.Server
             services.AddSignalR();
 
             services.AddSingleton<FingerprintRunner>();
+            services.AddHostedService<Synchroniser>();
 
 			services.AddCors(c =>
             {

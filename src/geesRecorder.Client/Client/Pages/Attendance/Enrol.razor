@@ -13,18 +13,6 @@
     <MatButton type="submit">Enrol</MatButton>
 </EditForm>
 
-@*<MatDialog CanBeClosed="false" @bind-IsOpen="@_dialogIsOpen">
-    <MatDialogTitle>Scan your finger</MatDialogTitle>
-    <MatDialogContent>
-
-        <p>Fingerprint Scanner Status: @_statusMessage</p>
-        <Loading />
-    </MatDialogContent>
-    <MatDialogActions>
-        <MatButton OnClick="@(async() => await AbortFingerprintOperations())">Abort</MatButton>
-    </MatDialogActions>
-</MatDialog>*@
-
 <LoadingModal Title="Scan Your Finger" IsAbortable="true" IsActive="_dialogIsOpen"
               Abort="@(async() => await AbortFingerprintOperations())">
     <p>Fingerprint Scanner Status: @_statusMessage</p>
