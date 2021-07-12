@@ -42,7 +42,7 @@ else
                         int iter = i;
                         <MatBlazor.MatListItem OnClick="() => ShowPersonDetails(ProjectData.Persons[iter].Id)">
                             <MatListItemText>
-                                @($"{ProjectData.Persons[iter].FirstName} {ProjectData.Persons[iter].FirstName} - {ProjectData.Persons[iter].CustomId}")
+                                @($"{ProjectData.Persons[iter].FirstName} {ProjectData.Persons[iter].LastName} - {ProjectData.Persons[iter].CustomId}")
                             </MatListItemText>
                         </MatBlazor.MatListItem>
                     }
